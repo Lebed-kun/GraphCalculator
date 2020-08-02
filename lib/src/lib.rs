@@ -65,21 +65,8 @@ impl<'a> Graph<'a> {
         self.padVertex(source);
         self.padVertex(destination);
 
-        let mut sourceId: u8 = 0;
-        match self.verticies.get(&source) {
-            Some(&source) => {
-                sourceId = source
-            },
-            _ => ()
-        }
-
-        let mut destinationId: u8 = 0;
-        match self.verticies.get(&destination) {
-            Some(&destination) => {
-                destinationId = destination
-            },
-            _ => ()
-        }
+        let sourceId: u8 = self.verticies[source];
+        let destinationId: u8 = self.verticies[destination];
 
         self.padAdjacents(sourceId);
         self.padAdjacents(destinationId);
