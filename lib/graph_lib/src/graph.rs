@@ -1,6 +1,7 @@
-use std::collections::HashMap;
-
-#[allow(non_snake_case)]
+pub mod graph {
+    use std::collections::HashMap;
+    
+    #[allow(non_snake_case)]
     pub struct Graph<'a> {
         verticies: HashMap<
             &'a str,
@@ -87,3 +88,4 @@ use std::collections::HashMap;
             ] = 1;
         }
     }
+}
