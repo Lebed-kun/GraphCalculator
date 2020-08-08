@@ -1,0 +1,10 @@
+[package]
+name = "graph_lib_tests"
+version = "0.1.0"
+authors = ["Lebed-kun <lebed-kun@mail.ru>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+graph_lib = { path = "../graph_lib" }
