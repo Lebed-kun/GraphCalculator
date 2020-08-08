@@ -1,11 +1,12 @@
-extern crate graph_lib;
+#[cfg(test)]
+pub mod graph {
+    use graph_lib::graph::graph::Graph;
 
-use graph_lib::graph::Graph;
-    
+    #[allow(non_snake_case)]
     #[test]
     pub fn createsGraphWithVerticies() {
         let verticiesCount: u8 = 5;
-        let graph: Box<Graph> = Box::new(
+        let mut graph: Box<Graph> = Box::new(
             Graph::new(verticiesCount)
         );
     
@@ -44,7 +45,7 @@ use graph_lib::graph::Graph;
         let adjacentsOfAbc = graph.getAdjacents("abc");
         assert_eq!(
             adjacentsOfAbc[
-                graph.getVertexId("123")
+                graph.getVertexId("123") as usize
             ],
             1
         );
@@ -52,13 +53,13 @@ use graph_lib::graph::Graph;
         let adjacentsOf123 = graph.getAdjacents("123");
         assert_eq!(
             adjacentsOf123[
-                graph.getVertexId("abc")
+                graph.getVertexId("abc") as usize
             ],
             1
         );
         assert_eq!(
             adjacentsOf123[
-                graph.getVertexId("()")
+                graph.getVertexId("()") as usize
             ],
             1
         );
@@ -66,7 +67,7 @@ use graph_lib::graph::Graph;
         let adjacentsOfDef = graph.getAdjacents("def");
         assert_eq!(
             adjacentsOfDef[
-                graph.getVertexId("456")
+                graph.getVertexId("456") as usize
             ],
             1
         );
@@ -74,7 +75,7 @@ use graph_lib::graph::Graph;
         let adjacentsOf456 = graph.getAdjacents("456");
         assert_ne!(
             adjacentsOf456[
-                graph.getVertexId("def")
+                graph.getVertexId("def") as usize
             ],
             1
         );
@@ -82,8 +83,9 @@ use graph_lib::graph::Graph;
         let adjacentsOfBracets = graph.getAdjacents("()");
         assert_ne!(
             adjacentsOfBracets[
-                graph.getVertexId("123")
+                graph.getVertexId("123") as usize
             ],
             1
         );
-    } 
+    }
+} 

@@ -1,5 +1,3 @@
-mod graph;
+pub mod graph;
 
-fn main() {
-    graph::createsGraphWithVerticies();
-}
+fn main() {}
