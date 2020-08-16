@@ -17,10 +17,14 @@ pub mod graph {
 
             let mut adjacentMatrix = Vec::with_capacity(verticiesCount as usize);
 
-            for _ in 0..verticiesCount {
+            for i in 0..verticiesCount {
                 adjacentMatrix.push(
                     Vec::with_capacity(verticiesCount as usize)
                 );
+
+                for _ in 0..verticiesCount {
+                    adjacentMatrix[i as usize].push(0);
+                }
             }
 
             let graph = Graph {

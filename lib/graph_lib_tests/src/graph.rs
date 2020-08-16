@@ -1,8 +1,8 @@
 #[cfg(test)]
+#[allow(non_snake_case)]
 pub mod graph {
     use graph_lib::graph::graph::Graph;
 
-    #[allow(non_snake_case)]
     #[test]
     pub fn createsGraphWithVerticies() {
         let verticiesCount: u8 = 5;
@@ -34,7 +34,19 @@ pub mod graph {
             graph.getVertexId("456"),
             3
         );
+    }
+
+    #[test]
+    pub fn createsGraphWithEdges() {
+        let verticiesCount: u8 = 5;
+        let mut graph: Box<Graph> = Box::new(
+            Graph::new(verticiesCount)
+        );
     
+        graph.addVertex("abc");
+        graph.addVertex("def");
+        graph.addVertex("123");
+        graph.addVertex("456");
         graph.addVertex("()");
     
         graph.addEdge("abc", "123");
