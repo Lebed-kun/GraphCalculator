@@ -100,4 +100,76 @@ pub mod graph {
             1
         );
     }
+
+    #[test]
+    pub fn calculatesDistanceCorrectly() {
+        let verticiesCount: u8 = 6;
+        let mut graph: Box<Graph> = Box::new(
+            Graph::new(verticiesCount)
+        );
+
+        graph.addVertex("a");
+        graph.addVertex("b");
+        graph.addVertex("c");
+        graph.addVertex("1");
+        graph.addVertex("2");
+        graph.addVertex("3");
+
+        graph.addEdge("a", "b");
+        graph.addEdge("b", "c");
+        graph.addEdge("b", "1");
+        graph.addEdge("1", "a");
+        graph.addEdge("1", "2");
+        graph.addEdge("2", "c");
+        graph.addEdge("2", "3");
+
+        let realDistance1: i32 = graph.distance("a", "b");
+        let expectedDistance1: i32 = 1;
+        assert_eq!(
+            realDistance1,
+            expectedDistance1
+        );
+
+        let realDistance2: i32 = graph.distance("a", "c");
+        let expectedDistance2: i32 = 2;
+        assert_eq!(
+            realDistance2,
+            expectedDistance2
+        );
+
+        let realDistance3: i32 = graph.distance("a", "3");
+        let expectedDistance3: i32 = 4;
+        assert_eq!(
+            realDistance3,
+            expectedDistance3
+        );
+
+        let realDistance4: i32 = graph.distance("b", "3");
+        let expectedDistance4: i32 = 3;
+        assert_eq!(
+            realDistance4,
+            expectedDistance4
+        );
+
+        let realDistance5: i32 = graph.distance("b", "2");
+        let expectedDistance5: i32 = 2;
+        assert_eq!(
+            realDistance5,
+            expectedDistance5
+        );
+
+        let realDistance6: i32 = graph.distance("c", "1");
+        let expectedDistance6: i32 = -1;
+        assert_eq!(
+            realDistance6,
+            expectedDistance6
+        );
+
+        let realDistance7: i32 = graph.distance("3", "a");
+        let expectedDistance7: i32 = -1;
+        assert_eq!(
+            realDistance7,
+            expectedDistance7
+        );
+    } 
 } 
