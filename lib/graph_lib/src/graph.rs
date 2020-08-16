@@ -1,5 +1,8 @@
 pub mod graph {
     use std::collections::HashMap;
+    use std::collections::LinkedList;
+
+    use crate::math::math;
     
     #[allow(non_snake_case)]
     pub struct Graph<'a> {
@@ -94,9 +97,71 @@ pub mod graph {
             ] = 1;
         }
 
-        /*
-        pub fn distance(&self, source: &'a str, destination: &'a str) {
-            // TODO
-        } */
+        fn createVisitedList(&self) -> Box<Vec<u8>> {
+            let mut result: Box<Vec<u8>> = Box::new(
+                Vec::with_capacity(self.verticies.len())
+            );
+            let verticiesCount: usize = self.verticies.len();
+
+            for _ in 0..verticiesCount {
+                result.push(0);
+            }
+
+            return result;
+        }
+
+        pub fn distance(&self, source: &'a str, destination: &'a str) -> i32 {
+            let mut result: i32 = -1;
+
+            if !self.verticies.contains_key(source) {
+                return result;
+            }
+
+            if !self.verticies.contains_key(destination) {
+                return result;
+            }
+
+            let sourceId: u8 = self.verticies[source];
+            let destinationId: u8 = self.verticies[destination];
+
+            let mut currVertexId: u8 = sourceId;
+            let mut currLength: i32 = 0;
+            let mut visited: Box<Vec<u8>> = self.createVisitedList();
+            let mut stack: Box<LinkedList<(u8, i32)>> = Box::new(
+                LinkedList::new()
+            );
+
+            loop {
+                // If there's neighbors to lookup
+                if stack.len() > 0 {
+                    let tuple = stack.pop_back().unwrap();
+                    currVertexId = tuple.0;
+                    currLength = tuple.1;
+                }
+
+                // If destination vertex is reached
+                if currVertexId == destinationId {
+                    result = math::positiveMin(currLength, result);
+                }
+
+                // Mark current vertex as visited
+                visited[currVertexId as usize] = 1;
+
+                // Push unvisited neighbors to stack
+                let neighborIds: &Vec<u8> = &self.adjacentMatrix[currVertexId as usize];
+                let neightborIdsCount: usize = neighborIds.len();
+                for id in 0..neightborIdsCount {
+                    if visited[id] == 0 {
+                        stack.push_back((id as u8, currLength + 1));
+                    }
+                }
+
+                // If stack is still empty 
+                // then there's no verticies to lookup
+                if stack.len() == 0 {
+                    return result;
+                }
+            }
+        }
     }
 }
