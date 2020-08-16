@@ -67,6 +67,8 @@ pub mod graph {
                 );
 
                 for i in 0..self.adjacentMatrix.len() {
+                    self.adjacentMatrix[id as usize].push(0);
+                    
                     self.adjacentMatrix[i].insert(
                         id as usize,
                         0
@@ -91,5 +93,10 @@ pub mod graph {
                 destinationId as usize
             ] = 1;
         }
+
+        /*
+        pub fn distance(&self, source: &'a str, destination: &'a str) {
+            // TODO
+        } */
     }
 }
