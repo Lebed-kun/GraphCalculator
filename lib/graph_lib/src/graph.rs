@@ -98,10 +98,10 @@ pub mod graph {
         }
 
         fn createVisitedList(&self) -> Box<Vec<u8>> {
-            let mut result: Box<Vec<u8>> = Box::new(
-                Vec::with_capacity(self.verticies.len())
-            );
             let verticiesCount: usize = self.verticies.len();
+            let mut result: Box<Vec<u8>> = Box::new(
+                Vec::with_capacity(verticiesCount)
+            );
 
             for _ in 0..verticiesCount {
                 result.push(0);
@@ -148,10 +148,10 @@ pub mod graph {
                 visited[currVertexId as usize] = 1;
 
                 // Push unvisited neighbors to stack
-                let neighborIds: &Vec<u8> = &self.adjacentMatrix[currVertexId as usize];
-                let neightborIdsCount: usize = neighborIds.len();
-                for id in 0..neightborIdsCount {
-                    if visited[id] == 0 {
+                let neighbors: &Vec<u8> = &self.adjacentMatrix[currVertexId as usize];
+                let neightborsCount: usize = neighbors.len();
+                for id in 0..neightborsCount {
+                    if visited[id] == 0 && neighbors[id] == 1 {
                         stack.push_back((id as u8, currLength + 1));
                     }
                 }
