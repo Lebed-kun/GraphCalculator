@@ -1,6 +1,5 @@
 pub mod graph {
     use std::collections::HashMap;
-    use std::collections::LinkedList;
 
     use crate::math::math;
     
@@ -127,14 +126,14 @@ pub mod graph {
             let mut currVertexId: u8 = sourceId;
             let mut currLength: i32 = 0;
             let mut visited: Box<Vec<u8>> = self.createVisitedList();
-            let mut stack: Box<LinkedList<(u8, i32)>> = Box::new(
-                LinkedList::new()
+            let mut stack: Box<Vec<(u8, i32)>> = Box::new(
+                Vec::new()
             );
 
             loop {
                 // If there's neighbors to lookup
                 if stack.len() > 0 {
-                    let tuple = stack.pop_back().unwrap();
+                    let tuple = stack.pop().unwrap();
                     currVertexId = tuple.0;
                     currLength = tuple.1;
                 }
@@ -152,7 +151,7 @@ pub mod graph {
                 let neightborsCount: usize = neighbors.len();
                 for id in 0..neightborsCount {
                     if visited[id] == 0 && neighbors[id] == 1 {
-                        stack.push_back((id as u8, currLength + 1));
+                        stack.push((id as u8, currLength + 1));
                     }
                 }
 
