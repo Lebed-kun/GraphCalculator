@@ -13,8 +13,9 @@ pub mod graph {
     }
 
     #[allow(non_snake_case)]
+    #[no_mangle]
     impl<'a> Graph<'a> {
-        pub fn new(verticiesCount: u8) -> Graph<'a> {
+        pub extern fn new(verticiesCount: u8) -> Graph<'a> {
             let verticies = HashMap::with_capacity(verticiesCount as usize);
 
             let mut adjacentMatrix = Vec::with_capacity(verticiesCount as usize);
@@ -37,18 +38,18 @@ pub mod graph {
             return graph;
         }
 
-        pub fn addVertex(&mut self, vertex: &'a str) {
+        pub extern fn addVertex(&mut self, vertex: &'a str) {
             self.verticies.insert(
                 vertex,
                 self.verticies.len() as u8
             );
         }
 
-        pub fn getVertexId(&self, vertex: &'a str) -> u8 {
+        pub extern fn getVertexId(&self, vertex: &'a str) -> u8 {
             return self.verticies[vertex];
         }
 
-        pub fn getAdjacents(&self, vertex: &'a str) -> &Vec<u8> {
+        pub extern fn getAdjacents(&self, vertex: &'a str) -> &Vec<u8> {
             let vertexId = self.verticies[vertex];
             return &self.adjacentMatrix[vertexId as usize];
         }
@@ -79,7 +80,7 @@ pub mod graph {
             }
         }
 
-        pub fn addEdge(&mut self, source: &'a str, destination: &'a str) {
+        pub extern fn addEdge(&mut self, source: &'a str, destination: &'a str) {
             self.padVertex(source);
             self.padVertex(destination);
 
@@ -109,7 +110,7 @@ pub mod graph {
             return result;
         }
 
-        pub fn distance(&self, source: &'a str, destination: &'a str) -> i32 {
+        pub extern fn distance(&self, source: &'a str, destination: &'a str) -> i32 {
             let mut result: i32 = -1;
 
             if !self.verticies.contains_key(source) {
