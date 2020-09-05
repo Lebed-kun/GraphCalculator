@@ -172,4 +172,53 @@ pub mod graph {
             expectedDistance7
         );
     } 
+
+    fn compareMatricies(realMatrix: Box<Vec<Vec<i32>>>, expectedMatrix:  Box<Vec<Vec<i32>>>) {
+        for i in 0..realMatrix.len() {
+            for j in 0..realMatrix[i].len() {
+                assert_eq!(
+                    realMatrix[i][j],
+                    expectedMatrix[i][j]
+                );
+            }
+        }
+    }
+
+    #[test]
+    pub fn calculatesDistanceMatrixCorrectly() {
+        let verticiesCount: u8 = 6;
+        let mut graph: Box<Graph> = Box::new(
+            Graph::new(verticiesCount)
+        );
+
+        graph.addVertex("a");
+        graph.addVertex("b");
+        graph.addVertex("c");
+        graph.addVertex("d");
+        graph.addVertex("e");
+        graph.addVertex("f");
+
+        graph.addEdge("a", "c");
+        graph.addEdge("c", "b");
+        graph.addEdge("b", "f");
+        graph.addEdge("f", "c");
+        graph.addEdge("c", "e");
+        graph.addEdge("e", "a");
+        graph.addEdge("f", "b");
+        graph.addEdge("e", "d");
+
+        let realDistanceMatrix: Box<Vec<Vec<i32>>> = graph.distanceMatrix();
+        let expectedDistanceMatrix: Box<Vec<Vec<i32>>> = Box::new(
+            vec![
+                vec![0, 2, 1, 3, 2, 3],
+                vec![4, 0, 2, 4, 3, 1],
+                vec![2, 1, 0, 2, 1, 2],
+                vec![-1, -1, -1, 0, -1, -1],
+                vec![1, 3, 2, 1, 0, 4],
+                vec![3, 1, 1, 3, 2, 0]
+            ]
+        );
+        
+        compareMatricies(realDistanceMatrix, expectedDistanceMatrix);
+    }
 } 

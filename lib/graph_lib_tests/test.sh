@@ -1,1 +1,1 @@
-bash -ac "RUST_BACKTRACE=1 && cargo test"
+bash -ac "RUST_BACKTRACE=full && cargo test"
