@@ -110,21 +110,18 @@ pub mod graph {
             return result;
         }
 
-        pub extern fn distance(&self, source: &'a str, destination: &'a str) -> i32 {
+        fn distanceById(&self, source: u8, destination: u8) -> i32 {
             let mut result: i32 = -1;
 
-            if !self.verticies.contains_key(source) {
+            if source >= self.verticies.len() as u8 {
                 return result;
             }
 
-            if !self.verticies.contains_key(destination) {
+            if destination >= self.verticies.len() as u8 {
                 return result;
             }
 
-            let sourceId: u8 = self.verticies[source];
-            let destinationId: u8 = self.verticies[destination];
-
-            let mut currVertexId: u8 = sourceId;
+            let mut currVertexId: u8 = source;
             let mut currLength: i32 = 0;
             let mut visited: Box<Vec<u8>> = self.createVisitedList();
             let mut stack: Box<Vec<(u8, i32)>> = Box::new(
@@ -140,7 +137,7 @@ pub mod graph {
                 }
 
                 // If destination vertex is reached
-                if currVertexId == destinationId {
+                if currVertexId == destination {
                     result = math::positiveMin(currLength, result);
                 }
 
@@ -162,6 +159,52 @@ pub mod graph {
                     return result;
                 }
             }
+        }
+
+        pub extern fn distance(&self, source: &'a str, destination: &'a str) -> i32 {
+            let mut result: i32 = -1;
+
+            if !self.verticies.contains_key(source) {
+                return result;
+            }
+
+            if !self.verticies.contains_key(destination) {
+                return result;
+            }
+
+            let sourceId: u8 = self.verticies[source];
+            let destinationId: u8 = self.verticies[destination];
+
+            return self.distanceById(sourceId, destinationId);
+        }
+
+        fn createVerticiesMatrix(&self) -> Box<Vec<Vec<i32>>> {
+            let mut result: Box<Vec<Vec<i32>>> = Box::new(
+                Vec::with_capacity(self.verticies.len())
+            );
+
+            for i in 0..self.verticies.len() {
+                result.push(Vec::with_capacity(self.verticies.len()));
+
+                for _ in 0..self.verticies.len() {
+                    result[i].push(0);
+                }
+            }
+
+            return result;
+        }
+
+        pub extern fn distanceMatrix(&self) -> Box<Vec<Vec<i32>>> {
+            let mut result: Box<Vec<Vec<i32>>> = self.createVerticiesMatrix();
+
+            for sourceId in 0..self.verticies.len() {
+                for destinationId in 0..self.verticies.len() {
+                    let distance = self.distanceById(sourceId as u8, destinationId as u8);
+                    result[sourceId][destinationId] = distance;
+                }
+            }
+
+            return result;
         }
     }
 }
