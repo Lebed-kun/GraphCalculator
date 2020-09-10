@@ -1,15 +1,19 @@
 package parser;
 
-{% eachltr size @sizes %}
+{% each size @sizes %}
 func ParseUint{{ $size }}(data []byte) uint{{ $size }} {
 	result :=
 		{% define id 1 %}
-		{% define upperBound (@diff (@log2 $size) 2) %} 
-		{% whilertl (@less $id $upperBound) %} 
-			(uint{{ $size }}(data[{{ $id }}] << {% @div $size 2 %})) + 
-		{% endwhilertl %} 
+		{% define upperBound (@diff (@log2 $size) 2) %}
+		{% define shiftString "" %} 
+		{% while (@less $id $upperBound) %}
+			{% prepend $shiftString %}
+				(uint{{ $size }}(data[{{ $id }}] << {% @div $size 2 %})) + 
+			{% endprepend %}
+		{% endwhile %}
+		{{ $shiftString }} 
 		uint{{ $size }}(data[0]);
 	
 	return result;
 }
-{% endeachltr %}
+{% endeach %}
