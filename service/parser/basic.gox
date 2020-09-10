@@ -1,6 +1,6 @@
 package parser;
 
-{% eachltr $size in @sizes %}
+{% eachltr $size @sizes %}
 func ParseUint{{ $size }}(data []byte) uint{{ $size }} {
 	result :=
 		{% define $id 1 %}
