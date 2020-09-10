@@ -6,7 +6,7 @@ func ParseUint{{ $size }}(data []byte) uint{{ $size }} {
 		{% define $id 1 %}
 		{% define $upperBound (@diff (@log2 $size) 2) %} 
 		{% whilertl (@less $id $upperBound) %} 
-			(uint{{ $size }}(data[{{ $id }}] << {{ @div $size 2 }}))
+			(uint{{ $size }}(data[{{ $id }}] << {{ @div $size 2 }})) + 
 		{% endwhilertl %} 
 		uint{{ $size }}(data[0]);
 	
